@@ -1,31 +1,26 @@
-import opsec from mainframe // MANDATORY! no opsec, no program
+import opsec from mainframe  // MANDATORY! no opsec, no program
 
+bandwidth = 5  // 5 cells of storage (aura)
 
-bandwidth = 5 // 5 cells of storage (aura)
+# Movement
+move the needle  // move 1 aura to the left
+MOVE THE NEEDLE  // MOVE 1 AURA TO THE RIGHT
 
+# Aura Operations
+aura--  // aura++
+aura++  // aura--
+aura#   // aura += 2
 
-move the needle // move 1 aura to the left
+# Input
+touch base  // aura = input()
 
-MOVE THE NEEDLE // MOVE 1 AURA TO THE RIGHT
-
-
-aura-- // aura++
-
-aura++ // aura--
-
-aura# // aura += 2
-
-
-touch base // aura = input()
-
-
-circle back: // check if aura is positive and loops
-
+# Loops
+circle back:  // check if aura is positive and loops
     aura--
 
+# Output
+leak aura       // print(aura)
+leak bandwidth  // print(bandwidth)
 
-leak aura // print(aura)
-
-leak bandwidth // print(bandwidth)
-
-take it offline // exit()
+# Exit
+take it offline  // exit()
