@@ -1,4 +1,4 @@
-# AuraScript
+# Larp Language
 
 ```text
 import opsec from mainframe // MANDATORY! no opsec, no program
