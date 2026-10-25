@@ -25,6 +25,14 @@ On Windows, you can also use `py` instead of `python`. No packages need to be in
 
 The included addition program prompts for two integers. Enter `2` and `3`; the final numeric output will be `5`. Input values and the sum wrap modulo `256`, and output is signed: `127` plus `1` prints `-128`, while `200` plus `100` prints `44`.
 
+To subtract the second input from the first, run:
+
+```bash
+python larpi.py subtraction.larp
+```
+
+Enter `2` and `3` to print `-1`. Subtraction uses the same wrapping arithmetic and signed output: `-128` minus `1` prints `127`.
+
 To run your own program, save it as a `.larp` file and pass its path to the interpreter:
 
 ```bash
@@ -89,6 +97,7 @@ The loop checks whichever cell the pointer selects at the start of each iteratio
 | --- | --- |
 | `larpi.py` | Tokenizer, syntax tree, and interpreter. |
 | `addition.larp` | Adds two input values modulo `256` by moving their values into a third cell. |
+| `subtraction.larp` | Subtracts the second input from the first modulo `256`, leaving the result in the first cell. |
 | `tree.py` | Standalone tree traversal experiment; not needed to run Larp programs. |
 
 ## Current limitations
