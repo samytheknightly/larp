@@ -49,15 +49,15 @@ class InstructionNode:
                 bandwidth.append(0)
             aura_pointer += 1
         elif self.instruction == "touchbase":
-            bandwidth[aura_pointer] = int(input(f"input aura at position {aura_pointer}: "))
+            bandwidth[aura_pointer] = int(input(f"input aura at position {aura_pointer}: ")) % 256
         elif self.instruction == "leak":
-            print(bandwidth[aura_pointer])
+            print(bandwidth[aura_pointer] % 256 if bandwidth[aura_pointer] <= 127 else bandwidth[aura_pointer] - 256)
         elif self.instruction == "aura ++":
-            bandwidth[aura_pointer] += 1
+            bandwidth[aura_pointer] = (bandwidth[aura_pointer] + 1) % 256
         elif self.instruction == "aura --":
-            bandwidth[aura_pointer] -= 1
+            bandwidth[aura_pointer] = (bandwidth[aura_pointer] - 1) % 256
         elif self.instruction == "aura #":
-            bandwidth[aura_pointer] += 2
+            bandwidth[aura_pointer] = (bandwidth[aura_pointer] + 2) % 256
 
 class LoopNode:
     def __init__(self):

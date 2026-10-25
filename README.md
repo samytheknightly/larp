@@ -23,7 +23,7 @@ python larpi.py addition.larp
 
 On Windows, you can also use `py` instead of `python`. No packages need to be installed.
 
-The included addition program prompts for two integers. Enter nonnegative values, such as `2` and `3`; the final numeric output will be `5`.
+The included addition program prompts for two integers. Enter `2` and `3`; the final numeric output will be `5`. Input values and the sum wrap modulo `256`, and output is signed: `127` plus `1` prints `-128`, while `200` plus `100` prints `44`.
 
 To run your own program, save it as a `.larp` file and pass its path to the interpreter:
 
@@ -33,12 +33,16 @@ python larpi.py your_program.larp
 
 ## How it works
 
-Larp stores integers in a tape called **bandwidth**. Each cell holds **aura**, and a pointer selects the current cell.
+Larp stores unsigned 8-bit values (`0`–`255`) in a tape called **bandwidth** and prints them as signed two's-complement integers (`-128`–`127`). Each cell holds **aura**, and a pointer selects the current cell.
 
 - The tape starts with one cell containing `0`.
 - Moving beyond either end creates a new cell containing `0`.
 - Arithmetic and input affect the current cell.
-- Values can be negative; they do not wrap around.
+- Arithmetic wraps modulo `256`: incrementing `255` gives `0`, and decrementing `0` gives `255`.
+- Integer input is also reduced modulo `256`: `256` becomes `0`, and `-1` becomes `255`.
+- `leak` prints stored values `0`–`127` unchanged and subtracts `256` from values `128`–`255`. For example, stored `128` prints `-128`, and stored `255` prints `-1`. Printing does not change the cell.
+
+From the program's output, incrementing `127` wraps to `-128`, and decrementing `-128` wraps to `127`. Decrementing a zero cell prints `-1`.
 
 Every program must begin with `import opsec from mainframe` as its first nonblank line. Put one instruction on each line. Instructions are case-sensitive.
 
@@ -49,11 +53,11 @@ Every program must begin with `import opsec from mainframe` as its first nonblan
 | `import opsec from mainframe` | Required opening line. |
 | `movetheneedle` | Move one cell left. |
 | `MOVETHENEEDLE` | Move one cell right. |
-| `aura++` | Add `1` to the current cell. |
-| `aura--` | Subtract `1` from the current cell. |
-| `aura#` | Add `2` to the current cell. |
-| `touchbase` | Read an integer into the current cell. |
-| `leak` | Print the current cell's value. |
+| `aura++` | Add `1` to the current cell, wrapping modulo `256`. |
+| `aura--` | Subtract `1` from the current cell, wrapping modulo `256`. |
+| `aura#` | Add `2` to the current cell, wrapping modulo `256`. |
+| `touchbase` | Read an integer into the current cell, reduced modulo `256`. |
+| `leak` | Print the current cell as a signed integer from `-128` to `127`. |
 | `circleback:` | Start a loop that runs while the current cell is nonzero. |
 | `endcircleback` | End the innermost open loop. |
 | `takeitoffline` | Exit the program immediately. |
@@ -77,14 +81,14 @@ circleback:
 endcircleback
 ```
 
-The loop checks whichever cell the pointer selects at the start of each iteration. If the body moves the pointer, that can change whether the loop continues. A negative value is also nonzero, so repeatedly decrementing it will not end a loop.
+The loop checks whichever cell the pointer selects at the start of each iteration. If the body moves the pointer, that can change whether the loop continues. Repeatedly decrementing a fixed cell reaches `0` from any nonzero value. Other loop bodies can still run forever; for example, repeatedly adding `2` to an odd value never reaches `0`.
 
 ## Included files
 
 | File | Purpose |
 | --- | --- |
 | `larpi.py` | Tokenizer, syntax tree, and interpreter. |
-| `addition.larp` | Adds two nonnegative integers by moving their values into a third cell. |
+| `addition.larp` | Adds two input values modulo `256` by moving their values into a third cell. |
 | `tree.py` | Standalone tree traversal experiment; not needed to run Larp programs. |
 
 ## Current limitations
