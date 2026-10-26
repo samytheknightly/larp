@@ -39,11 +39,8 @@ class InstructionNode:
         global aura_pointer
         if self.instruction == "takeitoffline":
             sys.exit()
-        elif self.instruction == "movetheneedle":
-            if aura_pointer == 0:
-                bandwidth.appendleft(0)
-            else:
-                aura_pointer -= 1
+        elif self.instruction == "movetheneedle" and aura_pointer > 0:
+            aura_pointer -= 1
         elif self.instruction == "MOVETHENEEDLE":
             if aura_pointer == len(bandwidth) - 1:
                 bandwidth.append(0)
@@ -116,7 +113,6 @@ with open(sys.argv[1], "r") as larp_file:
 
         if i == 0 and " ".join(tokens) != "import opsec from mainframe":
             raise SyntaxError("bro got no opsec")
-
         if tokens[0] == "circleback:":
             ast.add_to_deepest_open_loop(LoopNode())
         elif tokens[0] == "endcircleback":

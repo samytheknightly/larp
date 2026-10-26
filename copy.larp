@@ -1,0 +1,19 @@
+import opsec from mainframe
+
+touchbase
+
+circleback:
+    aura--
+    MOVETHENEEDLE
+    aura++
+    MOVETHENEEDLE
+    aura++
+    movetheneedle
+    movetheneedle
+endcircleback
+
+leak
+MOVETHENEEDLE
+leak
+MOVETHENEEDLE
+leak
