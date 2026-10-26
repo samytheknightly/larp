@@ -7,7 +7,7 @@ import opsec from mainframe
 
 aura#
 aura++
-leak
+leak(aura)
 takeitoffline
 ```
 
@@ -18,7 +18,7 @@ This program prints `3`.
 Install **Python 3.10 or newer**, then run the interpreter from this directory:
 
 ```bash
-python larpi.py addition.larp
+python larpi.py scripts/addition.larp
 ```
 
 On Windows, you can also use `py` instead of `python`. No packages need to be installed.
@@ -28,27 +28,23 @@ The included addition program prompts for two integers. Enter `2` and `3`; the f
 To subtract the second input from the first, run:
 
 ```bash
-python larpi.py subtraction.larp
+python larpi.py scripts/subtraction.larp
 ```
 
 Enter `2` and `3` to print `-1`. Subtraction uses the same wrapping arithmetic and signed output: `-128` minus `1` prints `127`.
-
-To run your own program, save it as a `.larp` file and pass its path to the interpreter:
-
-```bash
-python larpi.py your_program.larp
-```
 
 ## How it works
 
 Larp stores unsigned 8-bit values (`0`–`255`) in a tape called **bandwidth** and prints them as signed two's-complement integers (`-128`–`127`). Each cell holds **aura**, and a pointer selects the current cell.
 
 - The tape starts with one cell containing `0`.
-- Moving beyond either end creates a new cell containing `0`.
+- Moving right beyond the last cell creates a new cell containing `0`.
+- Moving left from the first cell does nothing; the pointer cannot go below `0`.
 - Arithmetic and input affect the current cell.
 - Arithmetic wraps modulo `256`: incrementing `255` gives `0`, and decrementing `0` gives `255`.
 - Integer input is also reduced modulo `256`: `256` becomes `0`, and `-1` becomes `255`.
-- `leak` prints stored values `0`–`127` unchanged and subtracts `256` from values `128`–`255`. For example, stored `128` prints `-128`, and stored `255` prints `-1`. Printing does not change the cell.
+- `leak(aura)` prints stored values `0`–`127` unchanged and subtracts `256` from values `128`–`255`. For example, stored `128` prints `-128`, and stored `255` prints `-1`. Printing does not change the cell.
+- `leak(bandwidth)` prints the entire tape as a Python-style list, using the same signed representation for each cell.
 
 From the program's output, incrementing `127` wraps to `-128`, and decrementing `-128` wraps to `127`. Decrementing a zero cell prints `-1`.
 
@@ -59,18 +55,19 @@ Every program must begin with `import opsec from mainframe` as its first nonblan
 | Instruction | Effect |
 | --- | --- |
 | `import opsec from mainframe` | Required opening line. |
-| `movetheneedle` | Move one cell left. |
-| `MOVETHENEEDLE` | Move one cell right. |
+| `movetheneedle` | Move one cell left, unless already at the first cell. |
+| `MOVETHENEEDLE` | Move one cell right, adding a zero cell if needed. |
 | `aura++` | Add `1` to the current cell, wrapping modulo `256`. |
 | `aura--` | Subtract `1` from the current cell, wrapping modulo `256`. |
 | `aura#` | Add `2` to the current cell, wrapping modulo `256`. |
-| `touchbase` | Read an integer into the current cell, reduced modulo `256`. |
-| `leak` | Print the current cell as a signed integer from `-128` to `127`. |
+| `touchbase` | Prompt with `input aura at position N: ` and read an integer into the current cell, reduced modulo `256`. Positions start at `0`. |
+| `leak(aura)` | Print the current cell as a signed integer from `-128` to `127`. |
+| `leak(bandwidth)` | Print all cells as a list of signed integers. |
 | `circleback:` | Start a loop that runs while the current cell is nonzero. |
 | `endcircleback` | End the innermost open loop. |
 | `takeitoffline` | Exit the program immediately. |
 
-Write instructions exactly as shown above.
+Use the spellings shown above. The tokenizer also accepts spaces between `aura` and `++`, `--`, or `#` (for example, `aura ++`).
 
 ## Loops
 
@@ -84,7 +81,7 @@ import opsec from mainframe
 aura#
 aura++
 circleback:
-    leak
+    leak(aura)
     aura--
 endcircleback
 ```
@@ -96,10 +93,9 @@ The loop checks whichever cell the pointer selects at the start of each iteratio
 | File | Purpose |
 | --- | --- |
 | `larpi.py` | Tokenizer, syntax tree, and interpreter. |
-| `addition.larp` | Adds two input values modulo `256` by moving their values into a third cell. |
-| `subtraction.larp` | Subtracts the second input from the first modulo `256`, leaving the result in the first cell. |
-| `tree.py` | Standalone tree traversal experiment; not needed to run Larp programs. |
+| `scripts/addition.larp` | Adds two input values modulo `256` by moving their values into a third cell, then prints the result. |
+| `scripts/subtraction.larp` | Subtracts the second input from the first modulo `256`, leaving and printing the result in the first cell. |
 
 ## Current limitations
 
-Larp is experimental. Comments are not supported. Unknown instructions are generally ignored, and malformed loops have limited validation.
+Larp is experimental. Comments are not supported. Unknown instructions (including the old bare `leak`) are silently ignored, and malformed loops have limited validation. Non-integer input raises a Python error. The command line expects a source-file path as its first argument and has no built-in help or argument validation.

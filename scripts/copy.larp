@@ -22,11 +22,5 @@ circleback:
     MOVETHENEEDLE
     MOVETHENEEDLE
 endcircleback
-movetheneedle
-movetheneedle
 
-leak
-MOVETHENEEDLE
-leak
-MOVETHENEEDLE
-leak
+leak(bandwidth)
