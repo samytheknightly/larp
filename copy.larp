@@ -12,6 +12,19 @@ circleback:
     movetheneedle
 endcircleback
 
+MOVETHENEEDLE
+MOVETHENEEDLE
+circleback:
+    aura--
+    movetheneedle
+    movetheneedle
+    aura++
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+endcircleback
+movetheneedle
+movetheneedle
+
 leak
 MOVETHENEEDLE
 leak
