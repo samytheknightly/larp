@@ -1,0 +1,48 @@
+import opsec from mainframe
+touchbase
+
+circleback:
+    aura--
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    aura++
+    movetheneedle
+    movetheneedle
+endcircleback
+MOVETHENEEDLE
+MOVETHENEEDLE
+
+circleback:
+    aura--
+    MOVETHENEEDLE
+    aura++
+    MOVETHENEEDLE
+    aura++
+    movetheneedle
+    movetheneedle
+endcircleback
+MOVETHENEEDLE
+MOVETHENEEDLE
+circleback:
+    aura--
+    movetheneedle
+    movetheneedle
+    aura++
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+endcircleback
+movetheneedle
+
+circleback:
+    aura--
+    movetheneedle
+    movetheneedle
+    movetheneedle
+    aura++
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+endcircleback
+movetheneedle
+
+leak(bandwidth)
