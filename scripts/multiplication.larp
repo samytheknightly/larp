@@ -1,0 +1,142 @@
+import opsec from mainframe
+MOVETHENEEDLE
+MOVETHENEEDLE
+MOVETHENEEDLE
+touchbase
+movetheneedle
+touchbase
+MOVETHENEEDLE
+
+circleback:
+    movetheneedle
+
+
+
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        aura++
+        movetheneedle
+        movetheneedle
+    endcircleback
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        aura++
+        MOVETHENEEDLE
+        aura++
+        movetheneedle
+        movetheneedle
+    endcircleback
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    circleback:
+        aura--
+        movetheneedle
+        movetheneedle
+        aura++
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+    endcircleback
+    movetheneedle
+
+    circleback:
+        aura--
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        aura++
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+    endcircleback
+    movetheneedle
+
+
+
+    movetheneedle
+    aura--
+
+
+
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        aura++
+        movetheneedle
+        movetheneedle
+    endcircleback
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        aura++
+        MOVETHENEEDLE
+        aura++
+        movetheneedle
+        movetheneedle
+    endcircleback
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    circleback:
+        aura--
+        movetheneedle
+        movetheneedle
+        aura++
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+    endcircleback
+    movetheneedle
+
+    circleback:
+        aura--
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        aura++
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+    endcircleback
+    movetheneedle
+endcircleback
+
+movetheneedle
+circleback:
+    movetheneedle
+    movetheneedle
+endcircleback
+MOVETHENEEDLE
+MOVETHENEEDLE
+MOVETHENEEDLE
+MOVETHENEEDLE
+
+
+
+TODO
+circleback:
+    movetheneedle
+    circleback:
+        MOVETHENEEDLE
+        circleback:
+            aura--
+            MOVETHENEEDLE
+            MOVETHENEEDLE
+            aura++
+            movetheneedle
+            movetheneedle
+        endcircleback
+        MOVETHENEEDLE
+    endcircleback
+endcircleback
+
+leak(bandwidth)
+MOVETHENEEDLE
+leak(aura)
