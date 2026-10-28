@@ -1,0 +1,280 @@
+import opsec from mainframe
+touchbase
+MOVETHENEEDLE
+touchbase
+
+
+
+// COPY()
+circleback:
+    aura--
+    MOVETHENEEDLE
+    aura++
+    MOVETHENEEDLE
+    aura++
+    movetheneedle
+    movetheneedle
+endcircleback
+
+MOVETHENEEDLE
+MOVETHENEEDLE
+circleback:
+    aura--
+    movetheneedle
+    movetheneedle
+    aura++
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+endcircleback
+movetheneedle
+// ENDCOPY()
+
+
+
+// COPY()
+circleback:
+    aura--
+    MOVETHENEEDLE
+    aura++
+    MOVETHENEEDLE
+    aura++
+    movetheneedle
+    movetheneedle
+endcircleback
+
+MOVETHENEEDLE
+MOVETHENEEDLE
+circleback:
+    aura--
+    movetheneedle
+    movetheneedle
+    aura++
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+endcircleback
+movetheneedle
+// ENDCOPY()
+
+
+
+movetheneedle
+movetheneedle
+movetheneedle
+// COPYTOFOURTHNEXTCELL()
+circleback:
+    aura--
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    aura++
+    MOVETHENEEDLE
+    aura++
+    movetheneedle
+    movetheneedle
+    movetheneedle
+    movetheneedle
+    movetheneedle
+endcircleback
+MOVETHENEEDLE
+MOVETHENEEDLE
+MOVETHENEEDLE
+MOVETHENEEDLE
+MOVETHENEEDLE
+circleback:
+    aura--
+    movetheneedle
+    movetheneedle
+    movetheneedle
+    movetheneedle
+    movetheneedle
+    aura++
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+endcircleback
+movetheneedle
+// ENDCOPYTOFOURTHNEXTCELL()
+
+
+
+circleback:
+    movetheneedle
+    movetheneedle
+
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        aura--
+        movetheneedle
+        movetheneedle
+    endcircleback
+
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    aura++
+    movetheneedle
+    movetheneedle
+
+
+    // COPYTOTHIRDNEXTCELL()
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        aura++
+        MOVETHENEEDLE
+        aura++
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+    endcircleback
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    circleback:
+        aura--
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        aura++
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+    endcircleback
+    movetheneedle
+    // ENDCOPYTOTHIRDNEXTCELL()
+
+
+
+    // COPY()
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        aura++
+        MOVETHENEEDLE
+        aura++
+        movetheneedle
+        movetheneedle
+    endcircleback
+
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    circleback:
+        aura--
+        movetheneedle
+        movetheneedle
+        aura++
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+    endcircleback
+    movetheneedle
+    // ENDCOPY()
+
+
+
+    movetheneedle
+    movetheneedle
+    movetheneedle
+
+
+
+    // COPYTOFOURTHNEXTCELL()
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        aura++
+        MOVETHENEEDLE
+        aura++
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+    endcircleback
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    circleback:
+        aura--
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        aura++
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+    endcircleback
+    movetheneedle
+    // ENDCOPYTOFOURTHNEXTCELL()
+
+
+
+    movetheneedle
+    movetheneedle
+    movetheneedle
+
+
+
+    // COPYTOFOURTHNEXTCELL()
+    circleback:
+        aura--
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        aura++
+        MOVETHENEEDLE
+        aura++
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+    endcircleback
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    MOVETHENEEDLE
+    circleback:
+        aura--
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        movetheneedle
+        aura++
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+        MOVETHENEEDLE
+    endcircleback
+    movetheneedle
+    // ENDCOPYTOFOURTHNEXTCELL()
+
+
+
+    movetheneedle
+endcircleback
+MOVETHENEEDLE
+leak(aura)
