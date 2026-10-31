@@ -45,4 +45,4 @@ circleback:
 endcircleback
 movetheneedle
 
-leak(bandwidth)
+leak(BANDWIDTH)

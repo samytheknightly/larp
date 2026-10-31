@@ -1,5 +1,8 @@
 import sys
 from pathlib import Path
+import sys
+
+sys.stdout.reconfigure(encoding='utf-8')
 
 bandwidth = [0]
 aura_pointer = 0 # 0-indexed
@@ -46,11 +49,15 @@ class InstructionNode:
                 bandwidth.append(0)
             aura_pointer += 1
         elif self.instruction == "touchbase":
-            bandwidth[aura_pointer] = int(input(f"input aura at position {aura_pointer}: ")) % 256
+            print(f"input aura at position {aura_pointer}: ", end="", file=sys.stderr, flush=True)
+            bandwidth[aura_pointer] = int(input()) % 256
+        elif self.instruction == "leak(AURA)":
+            print(bandwidth[aura_pointer] % 256 if bandwidth[aura_pointer] <= 127 else bandwidth[aura_pointer] - 256, flush=True)
+        elif self.instruction == "leak(BANDWIDTH)":
+            print([aura % 256 if aura <= 127 else aura - 256 for aura in bandwidth], flush=True)
         elif self.instruction == "leak(aura)":
-            print(bandwidth[aura_pointer] % 256 if bandwidth[aura_pointer] <= 127 else bandwidth[aura_pointer] - 256)
-        elif self.instruction == "leak(bandwidth)":
-            print([aura % 256 if aura <= 127 else aura - 256 for aura in bandwidth])
+            sys.stdout.buffer.write(bytes([bandwidth[aura_pointer]]))
+            sys.stdout.buffer.flush()
         elif self.instruction == "aura ++":
             bandwidth[aura_pointer] = (bandwidth[aura_pointer] + 1) % 256
         elif self.instruction == "aura --":
@@ -73,6 +80,8 @@ class InstructionNode:
             bf="-"
         elif self.instruction == "aura #":
             bf="++"
+        elif self.instruction != "import opsec from mainframe":
+            raise SyntaxError(f"Instruction {self.instruction} cannot be transpiled into Brainf***")
         return bf
 
 class LoopNode:

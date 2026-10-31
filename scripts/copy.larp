@@ -24,5 +24,5 @@ circleback:
 endcircleback
 movetheneedle
 
-leak(bandwidth)
-leak(aura)
+leak(BANDWIDTH)
+leak(AURA)

@@ -136,6 +136,6 @@ circleback:
     endcircleback
 endcircleback
 
-leak(bandwidth)
+leak(BANDWIDTH)
 MOVETHENEEDLE
-leak(aura)
+leak(AURA)

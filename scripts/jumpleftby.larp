@@ -17,4 +17,4 @@ circleback:
     movetheneedle
 endcircleback
 touchbase
-leak(bandwidth)
+leak(BANDWIDTH)
