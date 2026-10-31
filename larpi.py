@@ -1,4 +1,5 @@
 import sys
+from pathlib import Path
 
 bandwidth = [0]
 aura_pointer = 0 # 0-indexed
@@ -56,6 +57,23 @@ class InstructionNode:
             bandwidth[aura_pointer] = (bandwidth[aura_pointer] - 1) % 256
         elif self.instruction == "aura #":
             bandwidth[aura_pointer] = (bandwidth[aura_pointer] + 2) % 256
+    def convert_to_bf(self):
+        bf = ""
+        if self.instruction == "movetheneedle":
+            bf="<"
+        elif self.instruction == "MOVETHENEEDLE":
+            bf=">"
+        elif self.instruction == "touchbase":
+            bf=","
+        elif self.instruction == "leak(aura)":
+            bf="."
+        elif self.instruction == "aura ++":
+            bf="+"
+        elif self.instruction == "aura --":
+            bf="-"
+        elif self.instruction == "aura #":
+            bf="++"
+        return bf
 
 class LoopNode:
     def __init__(self):
@@ -80,11 +98,18 @@ class LoopNode:
         while bandwidth[aura_pointer] != 0:
             for child in self.body:
                 child.run()
+    def transpile_to_bf(self, bf):
+        if self.open:
+            bf+="["
+        else:
+            bf+="]"
+        return bf
 
 class AST:
     def __init__(self):
         self.body: list[LoopNode | InstructionNode] = []
         self.open = True
+        self.bf = ""
     def add_to_deepest_open_loop(self, node):
         self.get_deepest_open_loop()[0].body.append(node)
     def get_deepest_open_loop(self):
@@ -103,10 +128,19 @@ class AST:
     def run(self):
         for child in self.body:
             child.run()
+    def transpile_to_bf(self):
+        for child in self.body:
+            self.bf = child.transpile_to_bf(self.bf)
+        return self.bf
 
 with open(sys.argv[1], "r") as larp_file:
     lines = larp_file.readlines()
     tokenized_clean_lines = [tokens for line in lines if len(tokens := tokenized(line.replace("\n", "")))]
+
+    bf = ""
+    transpile = False
+    if "--bf" in sys.argv:
+        transpile = True
 
     ast = AST()
     for i in range(len(tokenized_clean_lines)):
@@ -115,13 +149,20 @@ with open(sys.argv[1], "r") as larp_file:
         if i == 0 and " ".join(tokens) != "import opsec from mainframe":
             raise SyntaxError("bro got no opsec")
         if tokens[0] == "circleback:":
+            if transpile:
+                bf+="["
             ast.add_to_deepest_open_loop(LoopNode())
         elif tokens[0] == "endcircleback":
+            if transpile:
+                bf+="]"
             ast.get_deepest_open_loop()[0].open = False
         else:
-            ast.add_to_deepest_open_loop(InstructionNode(" ".join(tokens)))
-    # ast.print()
-    # print("------------------")
-    # print("------------------")
-    # print("------------------")
+            instruction = InstructionNode(" ".join(tokens))
+            if transpile:
+                bf+=instruction.convert_to_bf()
+            ast.add_to_deepest_open_loop(instruction)
+            
     ast.run()
+    if transpile:
+        my_file = Path(sys.argv[1]).with_suffix(".bf")
+        my_file.write_text(bf)

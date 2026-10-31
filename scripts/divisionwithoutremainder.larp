@@ -277,4 +277,5 @@ circleback:
     movetheneedle
 endcircleback
 MOVETHENEEDLE
+leak(bandwidth)
 leak(aura)
