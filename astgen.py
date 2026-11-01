@@ -17,12 +17,14 @@ def generate_ast(tokenized_clean_lines: list[list[str]]):
             if tokens[0] == "synergy" and ast.functions.func is None:
                 ast.add_function_declaration(tokens[1][:-1], FunctionDeclarationNode())
             elif tokens[0] == "endsynergy":
-                ast.func = None
+                ast.functions.func = None
             elif ast.functions.func is not None:
                 if tokens[0] == "circleback:":
                     ast.functions.func.add_to_deepest_open_loop(loop)
                 elif tokens[0] == "endcircleback":
                     ast.functions.func.get_deepest_open_loop()[0].open = False
+                elif tokens[0].endswith("()"):
+                    ast.functions.func.add_to_deepest_open_loop(FunctionCallNode(tokens[0][:-2]))
                 else:
                     ast.functions.func.add_to_deepest_open_loop(instruction)
         elif tokens[0].endswith("()"):

@@ -57,7 +57,7 @@ class InstructionNode(Node):
 class LoopNode(Node):
     def __init__(self):
         self.open = True
-        self.body: list[LoopNode | InstructionNode] = []
+        self.body: list[LoopNode|InstructionNode|FunctionCallNode] = []
     def get_deepest_open_loop(self, depth: int) -> tuple[LoopNode, int]:
         visited = []
         for child in self.body:
@@ -78,8 +78,9 @@ class LoopNode(Node):
     def transpile(self, ast: AST) -> str:
         bf = "["
         for child in self.body:
-            if child.transpile(ast) is not None:
-                bf += child.transpile(ast)
+            tp = child.transpile(ast)
+            if tp is not None:
+                bf += tp
         bf += "]"
         return bf
     
@@ -105,8 +106,9 @@ class ASTNode(Node):
     def transpile(self, ast: AST):
         bf = ""
         for child in self.body:
-            if child.transpile(ast) is not None:
-                bf += child.transpile(ast)
+            tp = child.transpile(ast)
+            if tp is not None:
+                bf += tp
         return bf
 
 class Functions:
@@ -118,9 +120,6 @@ class Functions:
 class FunctionDeclarationNode(ASTNode):
     def __init__(self):
         super().__init__()
-    def run(self, ast: AST):
-        super().run(ast)
-        print(self.body)
 
 class FunctionCallNode(Node):
     def __init__(self, name):

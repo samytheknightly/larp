@@ -1,9 +1,12 @@
 import opsec from mainframe
 
 deepdive:
+    synergy MTN:
+        MOVETHENEEDLE
+    endsynergy
     synergy gurt:
         touchbase
-        MOVETHENEEDLE
+        MTN()
         touchbase
     endsynergy
 enddeepdive
