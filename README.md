@@ -66,9 +66,13 @@ Declare a function with `synergy name:` inside the `deepdive:` section, close it
 import opsec from mainframe
 
 deepdive:
+    synergy increment:
+        aura++
+    endsynergy
+
     synergy boost:
         aura#
-        aura++
+        increment()
     endsynergy
 enddeepdive
 
@@ -77,11 +81,13 @@ boost()
 leak(AURA)
 ```
 
-Each call runs the function body once, then continues after the call. Functions share the program's tape and pointer, so their changes remain after a call. Use the tape to pass data. Loops can be nested inside function bodies.
+Each call runs the function body once, then continues after the call. Functions share the program's tape and pointer, so their changes remain after a call. Use the tape to pass data. Function bodies can contain loops and calls to other functions.
 
-The example leaves `6` in the current cell and prints it. The interpreter also prints a list of the function body's nodes after each call.
+The example leaves `6` in the current cell and prints it.
 
-Use one function declaration per program and place calls in the main program. Close the declaration section with `enddeepdive`; the main program then runs in source order.
+Declare multiple functions inside the same `deepdive:` section. Close the section with `enddeepdive`; the main program then runs in source order.
+
+The interpreter supports recursive calls. Use a tape-based stopping condition, such as a `circleback:` loop whose current cell reaches zero, to end the recursion. Each recursive call shares the same tape and pointer.
 
 ## Export to Brainf***
 
@@ -92,6 +98,8 @@ python transpiler.py path/to/program.larp
 Parses the program and writes a `.bf` file beside the source, overwriting an existing file.
 
 Loops export as bracketed bodies, and function calls expand inline, including loops within those functions. Use instructions with a Brainf*** mapping in the main program and called functions when exporting.
+
+For export, use non-recursive function call chains so each call expands into a finite sequence of Brainf*** instructions.
 
 `leak(aura)` maps to Brainf***'s `.` for raw-byte output.
 
