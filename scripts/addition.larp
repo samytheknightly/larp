@@ -1,8 +1,14 @@
 import opsec from mainframe
 
-touchbase
-MOVETHENEEDLE
-touchbase
+deepdive:
+    synergy gurt:
+        touchbase
+        MOVETHENEEDLE
+        touchbase
+    endsynergy
+enddeepdive
+
+gurt()
 
 circleback:
     aura--
@@ -24,4 +30,4 @@ endcircleback
 
 MOVETHENEEDLE
 MOVETHENEEDLE
-leak(AURA)
+leak(aura)

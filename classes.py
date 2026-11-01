@@ -1,12 +1,15 @@
 import sys
 from larpmemory import bandwidth, aura_pointer
 
-class InstructionNode:
+class Node:
+    pass
+
+class InstructionNode(Node):
     def __init__(self, instruction: str):
         self.instruction = instruction
     def print(self):
         print(self.instruction)
-    def run(self):
+    def run(self, ast: AST):
         global aura_pointer
         if self.instruction == "takeitoffline":
             sys.exit()
@@ -32,7 +35,7 @@ class InstructionNode:
             bandwidth[aura_pointer] = (bandwidth[aura_pointer] - 1) % 256
         elif self.instruction == "aura #":
             bandwidth[aura_pointer] = (bandwidth[aura_pointer] + 2) % 256
-    def transpile(self) -> str:
+    def transpile(self, ast: AST) -> str:
         if self.instruction == "aura ++":
             return "+"
         if self.instruction == "aura --":
@@ -51,7 +54,7 @@ class InstructionNode:
             return ""
         raise SyntaxError(f"Instruction {self.instruction} cannot be transpiled to Brainf***")
 
-class LoopNode:
+class LoopNode(Node):
     def __init__(self):
         self.open = True
         self.body: list[LoopNode | InstructionNode] = []
@@ -67,24 +70,22 @@ class LoopNode:
         print(self.body)
         for child in self.body:
             child.print()
-    def run(self):
+    def run(self, ast: AST):
         global aura_pointer
         while bandwidth[aura_pointer] != 0:
             for child in self.body:
-                child.run()
-    def transpile(self) -> str:
+                child.run(ast)
+    def transpile(self, ast: AST) -> str:
         bf = "["
         for child in self.body:
-            if child.transpile() is not None:
-                bf += child.transpile()
+            if child.transpile(ast) is not None:
+                bf += child.transpile(ast)
         bf += "]"
         return bf
-
-class AST:
+    
+class ASTNode(Node):
     def __init__(self):
-        self.body: list[LoopNode | InstructionNode] = []
-        self.open = True
-        self.bf = ""
+        self.body: list[LoopNode|InstructionNode|FunctionCallNode] = []
     def add_to_deepest_open_loop(self, node):
         self.get_deepest_open_loop()[0].body.append(node)
     def get_deepest_open_loop(self) -> tuple[LoopNode, int]:
@@ -98,12 +99,52 @@ class AST:
     def print(self):
         for child in self.body:
             child.print()
-    def run(self):
+    def run(self, ast: AST):
         for child in self.body:
-            child.run()
-    def transpile(self):
+            child.run(ast)
+    def transpile(self, ast: AST):
         bf = ""
         for child in self.body:
-            if child.transpile() is not None:
-                bf += child.transpile()
+            if child.transpile(ast) is not None:
+                bf += child.transpile(ast)
         return bf
+
+class Functions:
+    def __init__(self):
+        self.open = True
+        self.func: FunctionDeclarationNode = None
+        self.declarations: dict[str, FunctionDeclarationNode] = {}
+
+class FunctionDeclarationNode(ASTNode):
+    def __init__(self):
+        super().__init__()
+    def run(self, ast: AST):
+        super().run(ast)
+        print(self.body)
+
+class FunctionCallNode(Node):
+    def __init__(self, name):
+        self.name = name
+    def run(self, ast: AST):
+        ast.functions.declarations[self.name].run(ast)
+    def transpile(self, ast: AST):
+        return ast.functions.declarations[self.name].transpile(ast)
+
+class AST:
+    def __init__(self):
+        self.functions = Functions()
+        self.root = ASTNode()
+        self.open = True
+    def add_to_deepest_open_loop(self, node: LoopNode|InstructionNode|FunctionCallNode):
+        self.root.add_to_deepest_open_loop(node)
+    def get_deepest_open_loop(self) -> tuple[LoopNode, int]:
+        return self.root.get_deepest_open_loop()
+    def print(self):
+        self.root.print()
+    def run(self):
+        self.root.run(self)
+    def transpile(self):
+        return self.root.transpile(self)
+    def add_function_declaration(self, name: str, node: FunctionDeclarationNode):
+        self.functions.func = node
+        self.functions.declarations[name] = node
