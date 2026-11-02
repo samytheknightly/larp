@@ -15,7 +15,7 @@ More examples are in [scripts/](scripts/).
 ## Basics
 
 - Start every program with `import opsec from mainframe`.
-- Start the declaration section with `deepdive:` and close it with `enddeepdive` before executable instructions. The section can be empty.
+- Declare functions anywhere after the opening import, including after calls to them.
 - Write one instruction per line. Instructions are case-sensitive; indentation is optional.
 - The tape starts with one zero-valued cell and the pointer at cell 0. Moving right grows the tape; moving left stops at cell 0.
 - Cell values and integer input wrap modulo 256. Numeric output is signed (−128 to 127).
@@ -47,9 +47,6 @@ Prints 3, 2, and 1 on separate lines:
 ```text
 import opsec from mainframe
 
-deepdive:
-enddeepdive
-
 aura#
 aura++
 circleback:
@@ -60,32 +57,30 @@ endcircleback
 
 ## Functions
 
-Declare a function with `synergy name:` inside the `deepdive:` section, close it with `endsynergy`, and call it using `name()` on its own line:
+Declare a function with `synergy name:`, close it with `endsynergy`, and call it using `name()` on its own line. Declarations can appear before or after calls:
 
 ```text
 import opsec from mainframe
 
-deepdive:
-    synergy increment:
-        aura++
-    endsynergy
-
-    synergy boost:
-        aura#
-        increment()
-    endsynergy
-enddeepdive
+synergy increment:
+    aura++
+endsynergy
 
 boost()
 boost()
 leak(AURA)
+
+synergy boost:
+    aura#
+    increment()
+endsynergy
 ```
 
 Each call runs the function body once, then continues after the call. Functions share the program's tape and pointer, so their changes remain after a call. Use the tape to pass data. Function bodies can contain loops and calls to other functions.
 
 The example leaves `6` in the current cell and prints it.
 
-Declare multiple functions inside the same `deepdive:` section. Close the section with `enddeepdive`; the main program then runs in source order.
+Function declarations are collected before execution and do not run until called. The main program's executable instructions run in source order.
 
 The interpreter supports recursive calls. Use a tape-based stopping condition, such as a `circleback:` loop whose current cell reaches zero, to end the recursion. Each recursive call shares the same tape and pointer.
 
