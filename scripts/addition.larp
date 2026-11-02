@@ -1,15 +1,8 @@
 import opsec from mainframe
 
-deepdive:
-    synergy MTN:
-        MOVETHENEEDLE
-    endsynergy
-    synergy gurt:
-        touchbase
-        MTN()
-        touchbase
-    endsynergy
-enddeepdive
+synergy MTN:
+    MOVETHENEEDLE
+endsynergy
 
 gurt()
 
@@ -19,6 +12,12 @@ circleback:
     aura++
     movetheneedle
 endcircleback
+
+synergy gurt:
+    touchbase
+    MTN()
+    touchbase
+endsynergy
 
 movetheneedle
 

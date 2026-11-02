@@ -113,7 +113,6 @@ class ASTNode(Node):
 
 class Functions:
     def __init__(self):
-        self.open = True
         self.func: FunctionDeclarationNode = None
         self.declarations: dict[str, FunctionDeclarationNode] = {}
 
@@ -133,7 +132,6 @@ class AST:
     def __init__(self):
         self.functions = Functions()
         self.root = ASTNode()
-        self.open = True
     def add_to_deepest_open_loop(self, node: LoopNode|InstructionNode|FunctionCallNode):
         self.root.add_to_deepest_open_loop(node)
     def get_deepest_open_loop(self) -> tuple[LoopNode, int]:
